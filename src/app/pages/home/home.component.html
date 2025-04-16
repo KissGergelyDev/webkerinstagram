@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Főoldal</title>
+</head>
+<body>
+    <header>
+        <img src="assets/images/logo.png" class="logo">
+        <button type="button" class="logout-button" [routerLink]="['/login']"> Kijelentkezés </button>
+    </header>
+    <main>
+        <div class="upload-container">
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden #fileInput>
+            <button mat-flat-button color="primary" (click)="fileInput.click()">Kép feltöltése</button>
+        </div>
+
+        <div *ngFor="let post of posts()" class="post">
+            <img [src]="post.imageUrl" alt="Post Image" class="post-image">
+            <p *ngIf="post.caption">{{ post.caption | truncate:30 }}</p>
+
+            <div class="post-actions">
+                <app-like-counter 
+                  [postId]="post.id"
+                  [likeCount]="getLikeCount(post.id)"
+                  [isLiked]="hasUserLiked(post.id)"
+                  (likeClicked)="toggleLike($event)"
+                ></app-like-counter>
+                
+                <button class="comment-button" (click)="toggleCommentInput(post.id)">
+                  <mat-icon>comment</mat-icon> Komment
+                </button>
+            </div>
+
+            <!-- Komment űrlap -->
+            <div *ngIf="activePostId === post.id" class="comment-form">
+                <textarea 
+                [(ngModel)]="newCommentContent" 
+                placeholder="Írd ide a kommented..."
+                rows="2"
+                ></textarea>
+                <button (click)="addComment(post.id)">Küldés</button>
+            </div>
+
+            <!-- Meglévő kommentek -->
+            <div *ngFor="let comment of getCommentsForPost(post.id)" class="comment">
+                <p>{{ comment.content }}</p>
+                <small>{{ comment.createdAt | date:'short' }}</small>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

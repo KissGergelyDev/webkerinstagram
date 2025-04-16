@@ -1,0 +1,8 @@
+<button 
+  class="like-button" 
+  [class.liked]="isLiked"
+  (click)="onLikeClick()"
+>
+  <mat-icon svgIcon="thumbs-up"></mat-icon> 
+  Like ({{ likeCount }})
+</button>

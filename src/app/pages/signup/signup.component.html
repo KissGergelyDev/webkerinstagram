@@ -1,0 +1,51 @@
+<body>
+    <main>
+        <div class="signup-container">
+            <img src="assets/images/logo.png" class="logo">
+            <h1>Fiók létrehozása</h1>
+        
+            @if (isLoading) {
+                <div class="loading-container">
+                    <h2>Regisztráció folyamatban</h2>
+                    <mat-spinner diameter="50"></mat-spinner>
+                    <p>Kérjük várakozzon...</p>
+                </div>
+            }
+        
+            @if (showForm) {
+                <form [formGroup]="signUpForm" (ngSubmit)="signup()" class="signup-form">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Felhasználónév</mat-label>
+                        <input matInput formControlName="username">
+                        <mat-icon matSuffix>person</mat-icon>
+                    </mat-form-field>
+        
+                    <mat-form-field appearance="outline">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput type="email" formControlName="email">
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+        
+                    <mat-form-field appearance="outline">
+                        <mat-label>Jelszó</mat-label>
+                        <input matInput type="password" formControlName="password">
+                        <mat-icon matSuffix>lock</mat-icon>
+                    </mat-form-field>
+        
+                    <mat-form-field appearance="outline">
+                        <mat-label>Jelszó megerősítése</mat-label>
+                        <input matInput type="password" formControlName="rePassword">
+                        <mat-icon matSuffix>lock</mat-icon>
+                    </mat-form-field>
+        
+                    <div class="buttons-row">
+                        <button mat-flat-button color="primary" type="submit">Regisztráció</button>
+                        <button type="button" class="login-button" [routerLink]="['/login']">
+                            Már van fiókod?
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </main>
+</body>

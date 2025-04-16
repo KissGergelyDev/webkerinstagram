@@ -1,0 +1,158 @@
+html, body {
+    height: 100%;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #121212;
+      z-index: -1;
+    }
+  }
+
+.login-container {
+    width: 400px;
+    margin: 20px auto;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+
+    h1 {
+        margin-bottom: 1.5rem;
+        color: #ffffff;
+        font-size: 1.8rem;
+    }
+    @media (max-width: 768px) and (orientation: portrait) { width: 90%; }
+    @media (max-width: 768px) and (orientation: portrait) { padding: 1rem; }
+}
+
+.logo {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.login-button, .register-button {
+    height: 48px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+    }
+}
+
+.register-button {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid transparent;
+    border-image: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-image-slice: 1;
+    
+    &:hover {
+        background: rgba(63, 81, 181, 0.1);
+    }
+}
+
+.error-message {
+    color: #f44336;
+    margin: -0.5rem 0 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    
+    h2 {
+        color: #ffffff;
+        margin-bottom: 0;
+    }
+    
+    p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 0;
+    }
+}
+
+/* input mezők és minden ami ahhoz kötődik */
+
+::ng-deep .mat-mdc-form-field.mat-focused {
+    --mdc-outlined-text-field-focus-outline-color: #ffffff;
+}
+  
+::ng-deep .mat-mdc-form-field:hover {
+    --mdc-outlined-text-field-hover-outline-color: #ffffff;
+}
+
+::ng-deep .mat-mdc-form-field.mat-mdc-form-field-type-mat-input {
+    --mdc-outlined-text-field-input-text-color: #ffffff;
+    --mdc-outlined-text-field-caret-color: #ffffff;
+    --mdc-outlined-text-field-label-text-color: rgba(255, 255, 255, 0.6);
+    --mdc-outlined-text-field-label-text-color-focus: #ffffff;
+    --mdc-outlined-text-field-focus-outline-color: #ffffff;
+    --mdc-outlined-text-field-hover-outline-color: #ffffff;
+    --mdc-theme-primary: #ffffff;
+  }
+  
+  ::ng-deep .mat-icon {
+    color: #ffffff;
+  }
+
+  ::ng-deep .mat-mdc-form-field.mat-focused .mdc-floating-label {
+    color: #ffffff !important; /* Fókuszban lévő floating label színe */
+  }
+  
+  ::ng-deep .mat-mdc-form-field:hover .mdc-floating-label {
+    color: #ffffff !important; /* Hover állapotban lévő label színe */
+  }

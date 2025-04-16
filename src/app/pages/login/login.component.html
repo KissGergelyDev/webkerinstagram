@@ -1,0 +1,49 @@
+<body>
+    <main>
+        <div class="login-container">
+            <img src="assets/images/logo.png" class="logo">
+            <h1>Bejelentkezés</h1>
+        
+            @if (isLoading()) {
+                <div class="loading-container">
+                    <h2>Bejelentkezés folyamatban</h2>
+                    <mat-spinner diameter="50" color="white"></mat-spinner>
+                    <p>Kérjük várakozzon...</p>
+                </div>
+            }
+        
+            @if (showLoginForm()) {
+                <form class="login-form">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Felhasználónév</mat-label>
+                        <input matInput [formControl]="username">
+                        <mat-icon matSuffix>person</mat-icon>
+                      </mat-form-field>
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Jelszó</mat-label>
+                        <input matInput [formControl]="password" [type]="hide() ? 'password' : 'text'">
+                        <button mat-icon-button matSuffix (click)="hide.set(!hide())">
+                            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+        
+                    @if (loginError()) {
+                        <div class="error-message">
+                            {{ loginError() }}
+                        </div>
+                    }
+        
+                    <div class="form-actions">
+                        <button type="button" class="login-button" (click)="login($event)">
+                            Belépés
+                        </button>
+                        <button type="button" class="register-button" [routerLink]="['/signup']">
+                            Nincs fiókod?
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </main>
+</body>
