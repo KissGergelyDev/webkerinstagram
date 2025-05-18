@@ -1,0 +1,43 @@
+// logout.component.scss
+:host {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #121212;
+    z-index: 1000;
+  }
+  
+  .logout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 1rem;
+    text-align: center;
+    color: #ffffff;
+  
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-family: Arial, sans-serif;
+    }
+  
+    p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 0;
+      font-size: 1rem;
+      font-family: Arial, sans-serif;
+    }
+  
+    mat-spinner {
+        margin: 0 auto;
+        
+        ::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
+            stroke: #ffffff !important;
+        }
+    }
+  }

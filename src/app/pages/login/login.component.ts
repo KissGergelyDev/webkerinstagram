@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,48 +27,46 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
 
-  username = new FormControl('');
+  email = new FormControl('');
   password = new FormControl('');
   isLoading = signal(false);
   loginError = signal('');
   showLoginForm = signal(true);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  login(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log('Login method called');
-    
-    this.loginError.set('');
-  
-    if (this.username.value !== 'rossz' && this.password.value !== 'rossz') { //Tesztelés szempontjából csak akkor NEM lehet belépni ha a jelszó vagy felhaszálónév "rossz". Szó szerint
-      console.log('Credentials correct, showing loading state');
+  async login(event: Event) {
+  event.preventDefault();
+  this.loginError.set('');
+
+  try {
       this.isLoading.set(true);
-      this.showLoginForm.set(false);
-  
-      localStorage.setItem('isLoggedIn', 'true');
-  
-      setTimeout(() => {
-        console.log('Navigating to home');
-        this.router.navigate(['/home']).then(success => {
-          if (!success) {
-            console.error('Navigation failed');
-          }
-        });
-      }, 2000);
-    } else {
-      console.log('Invalid credentials');
-      this.loginError.set('Rossz felhasználónév vagy jelszó!');
+      await this.authService.login(this.email.value!, this.password.value!).toPromise();
+      this.router.navigate(['/home']);
+    } catch (error) {
+      this.loginError.set('Invalid credentials');
+    } finally {
+      this.isLoading.set(false);
     }
   }
+
 
   hide = signal(true);
   clickEvent(event: MouseEvent) {
     event.preventDefault();
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  ngOnDestroy() {
+    console.log('LoginComponent destroyed');
+    this.email.reset();
+    this.password.reset();
+    this.loginError.set('');
   }
 }

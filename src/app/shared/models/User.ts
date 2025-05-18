@@ -1,7 +1,8 @@
 export interface User {
-    id?: string;
+    id: string;
     username: string;
     email: string;
-    password_hashed: string;  //egyelőre nem hashed
-    profilePicture?: string;  //nem kell megadni
-}
+    profilePicture?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+  }

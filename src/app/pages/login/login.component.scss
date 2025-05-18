@@ -123,6 +123,14 @@ html, body {
         color: rgba(255, 255, 255, 0.7);
         margin-top: 0;
     }
+
+    .mat-mdc-progress-spinner {
+        --mdc-circular-progress-active-indicator-color: #ffffff;
+        
+        ::ng-deep circle {
+          stroke: #ffffff !important;
+        }
+    }
 }
 
 /* input mezők és minden ami ahhoz kötődik */

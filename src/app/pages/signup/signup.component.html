@@ -4,7 +4,7 @@
             <img src="assets/images/logo.png" class="logo">
             <h1>Fiók létrehozása</h1>
         
-            @if (isLoading) {
+            @if (isLoading()) {
                 <div class="loading-container">
                     <h2>Regisztráció folyamatban</h2>
                     <mat-spinner diameter="50"></mat-spinner>
@@ -12,7 +12,7 @@
                 </div>
             }
         
-            @if (showForm) {
+            @if (showForm()) {
                 <form [formGroup]="signUpForm" (ngSubmit)="signup()" class="signup-form">
                     <mat-form-field appearance="outline">
                         <mat-label>Felhasználónév</mat-label>

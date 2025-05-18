@@ -1,46 +1,78 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Főoldal</title>
 </head>
 <body>
     <header>
-        <img src="assets/images/logo.png" class="logo">
-        <button type="button" class="logout-button" [routerLink]="['/login']"> Kijelentkezés </button>
+        <img src="assets/images/logo.png" class="logo" alt="Logo" />
+        <button type="button" class="logout-button" [routerLink]="['/logout']">Kijelentkezés</button>
     </header>
+
     <main>
         <div class="upload-container">
-            <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden #fileInput>
-            <button mat-flat-button color="primary" (click)="fileInput.click()">Kép feltöltése</button>
+            <button mat-flat-button color="primary" (click)="onImageSelected($event)">Új poszt létrehozása</button>
+            <div class="filter-buttons">
+                <button mat-button (click)="resetFilters()" [class.active]="filterType() === 'all'">Összes</button>
+                <button mat-button (click)="filterShortCaptionPosts()" [class.active]="filterType() === 'short'">Rövid leírás</button>
+                <button mat-button (click)="filterLongCaptionPosts()" [class.active]="filterType() === 'long'">Hosszú leírás</button>
+                <button mat-button (click)="filterLikedPosts()" [class.active]="filterType() === 'liked'">Like-olt posztok</button>
+                <button mat-button (click)="filterUnlikedPosts()" [class.active]="filterType() === 'unliked'">Like nélküli posztok</button>
+            </div>
         </div>
 
         <div *ngFor="let post of posts()" class="post">
-            <img [src]="post.imageUrl" alt="Post Image" class="post-image">
+            <div class="post-header">
+                <h3>Poszt #{{post.id | slice:0:8}}</h3>
+                <div class="post-actions">
+                    <button mat-icon-button (click)="editPost(post)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deletePost(post.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            
+            <img [src]="post.imageUrl" alt="Post Image" class="post-image" />
             <p *ngIf="post.caption">{{ post.caption | truncate:30 }}</p>
 
-            <div class="post-actions">
-                <app-like-counter 
-                  [postId]="post.id"
-                  [likeCount]="getLikeCount(post.id)"
-                  [isLiked]="hasUserLiked(post.id)"
-                  (likeClicked)="toggleLike($event)"
+            <div class="post-interactions">
+                <app-like-counter
+                    [postId]="post.id"
+                    [likeCount]="getLikeCount(post.id)"
+                    [isLiked]="hasUserLiked(post.id)"
+                    (likeClicked)="toggleLike($event)"
+                    (hoverStarted)="onHoverStart()"
+                    (hoverEnded)="onHoverEnd()"
                 ></app-like-counter>
-                
+
                 <button class="comment-button" (click)="toggleCommentInput(post.id)">
-                  <mat-icon>comment</mat-icon> Komment
+                    <mat-icon>comment</mat-icon> Komment
                 </button>
             </div>
 
             <!-- Komment űrlap -->
             <div *ngIf="activePostId === post.id" class="comment-form">
-                <textarea 
-                [(ngModel)]="newCommentContent" 
-                placeholder="Írd ide a kommented..."
-                rows="2"
+                <textarea
+                    [(ngModel)]="newCommentContent"
+                    placeholder="Írd ide a kommented..."
+                    rows="2"
                 ></textarea>
                 <button (click)="addComment(post.id)">Küldés</button>
+            </div>
+
+            <!-- Szerkesztő űrlap -->
+            <div *ngIf="editingPostId === post.id" class="edit-form">
+                <textarea
+                    [(ngModel)]="editedCaption"
+                    placeholder="Módosítsd a poszt leírását..."
+                    rows="2"
+                ></textarea>
+                <button (click)="savePostEdit(post.id)">Mentés</button>
+                <button (click)="cancelEdit()">Mégse</button>
             </div>
 
             <!-- Meglévő kommentek -->
